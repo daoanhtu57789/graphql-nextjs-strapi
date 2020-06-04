@@ -1,0 +1,14 @@
+.footer {
+    background: linear-gradient(90deg, #707070 0%, #474747 100%);
+    color: white;
+    font-size: 1.2rem;
+    height: 4.2rem;
+    line-height: 4.2rem;
+    text-align: center;
+    padding-right: 4rem;
+}
+
+.social {
+    display: inline;
+    margin-left: 10rem;
+}

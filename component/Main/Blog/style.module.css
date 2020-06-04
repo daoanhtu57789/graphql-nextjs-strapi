@@ -1,0 +1,16 @@
+.blog {
+  margin: 2rem 8rem;
+  border-bottom: 1px solid gray;
+  padding-top: 0.8rem;
+}
+
+.notification {
+  margin: 0 0 1rem 0;
+}
+
+.content {
+}
+
+.strong {
+  margin-right: 1.2rem;
+}
