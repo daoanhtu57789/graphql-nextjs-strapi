@@ -10,11 +10,9 @@ import UserStore from "./../stores/UserStore";
 const errorLink = onError(({ graphQLError }) => {
   if (graphQLError) graphQLError.map(({ message }) => console.log(message));
 });
+const uri = "https://demo-strapi-nextjs.herokuapp.com/graphql";
 const client = new ApolloClient({
-  link: ApolloLink.from([
-    errorLink,
-    "https://demo-strapi-nextjs.herokuapp.com/graphql",
-  ]),
+  link: ApolloLink.from([errorLink, uri]),
   uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
 });
 export default function MyApp({ Component, pageProps }) {
