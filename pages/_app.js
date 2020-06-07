@@ -1,12 +1,17 @@
 //css cuả antd
 import "antd/dist/antd.css";
-import ApolloClient from "apollo-boost";
+import { ApolloClient, ApolloLink } from "apollo-boost";
+import { onError } from "apollo-link-error";
 import { ApolloProvider } from "react-apollo";
 import { Provider } from "mobx-react";
 import UserStore from "./../stores/UserStore";
 //khai báo API để sử dụng graphql
 //const client = new ApolloClient({ uri: "http://localhost:1337/graphql" });
+const errorLink = onError(({ graphQLError }) => {
+  if (graphQLError) graphQLError.map(({ message }) => console.log(message));
+});
 const client = new ApolloClient({
+  link: ApolloLink.from([errorLink]),
   uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
 });
 export default function MyApp({ Component, pageProps }) {
