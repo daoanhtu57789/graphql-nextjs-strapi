@@ -7,12 +7,13 @@ import { Provider } from "mobx-react";
 import UserStore from "./../stores/UserStore";
 //khai báo API để sử dụng graphql
 //const client = new ApolloClient({ uri: "http://localhost:1337/graphql" });
-const errorLink = onError(({ graphQLError }) => {
-  if (graphQLError) graphQLError.map(({ message }) => console.log(message));
-});
-const uri = "https://demo-strapi-nextjs.herokuapp.com/graphql";
+
 const client = new ApolloClient({
   uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
+  onError: ({ networkError, graphQLErrors }) => {
+    console.log("graphQLErrors", graphQLErrors);
+    console.log("networkError", networkError);
+  },
 });
 export default function MyApp({ Component, pageProps }) {
   return (
