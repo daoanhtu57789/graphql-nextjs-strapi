@@ -11,7 +11,7 @@ import { deletePost } from "./../../constants/index";
 import { graphql } from "react-apollo";
 const Admin = observer(function Admin(props) {
   let xhtml = <div style={{ textAlign: "center" }}>...Loading</div>;
-  if (props.UserStore.user) {
+  if (props.UserStore.user.posts) {
     xhtml = (
       <AdminComponent
         handleDelete={(id) => handleDelete(id)}
