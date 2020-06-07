@@ -17,15 +17,17 @@ export default function AdminComponent(props) {
         </a>
       </Link>
 
-      {props.posts.map((post, index) => {
-        return (
-          <Post
-            key={index}
-            post={post}
-            handleDelete={(id) => props.handleDelete(id)}
-          />
-        );
-      })}
+      {props.posts
+        ? props.posts.map((post, index) => {
+            return (
+              <Post
+                key={index}
+                post={post}
+                handleDelete={(id) => props.handleDelete(id)}
+              />
+            );
+          })
+        : ""}
     </div>
   );
 }
