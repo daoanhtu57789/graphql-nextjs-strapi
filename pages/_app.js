@@ -7,8 +7,7 @@ import UserStore from "./../stores/UserStore";
 //khai báo API để sử dụng graphql
 //const client = new ApolloClient({ uri: "http://localhost:1337/graphql" });
 const client = new ApolloClient({
-  uri:
-    process.env.API_URL || "https://demo-strapi-nextjs.herokuapp.com/graphql",
+  uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
 });
 export default function MyApp({ Component, pageProps }) {
   return (
