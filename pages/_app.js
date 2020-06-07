@@ -11,7 +11,10 @@ const errorLink = onError(({ graphQLError }) => {
   if (graphQLError) graphQLError.map(({ message }) => console.log(message));
 });
 const client = new ApolloClient({
-  link: ApolloLink.from([errorLink]),
+  link: ApolloLink.from([
+    errorLink,
+    "https://demo-strapi-nextjs.herokuapp.com/graphql",
+  ]),
   uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
 });
 export default function MyApp({ Component, pageProps }) {
