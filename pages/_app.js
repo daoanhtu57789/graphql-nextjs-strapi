@@ -1,7 +1,6 @@
 //css cuả antd
 import "antd/dist/antd.css";
-import { ApolloClient, ApolloLink } from "apollo-boost";
-import { onError } from "apollo-link-error";
+import { ApolloClient } from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import { Provider } from "mobx-react";
 import UserStore from "./../stores/UserStore";
