@@ -38,19 +38,20 @@ export default function Header({ href }) {
       <Menu
         theme="light"
         mode="horizontal"
-        defaultSelectedKeys={[router.pathname === "/" ? "1" : "2"]}
+        // defaultSelectedKeys={[router.pathname === "/" ? "1" : "2"]}
+        defaultSelectedKeys={["1"]}
       >
         <Menu.Item key="1">
           <ReadOutlined />
-          <Link href="/newslist">
+          <Link href="/">
             <a>Trang Chủ</a>
           </Link>
         </Menu.Item>
 
         <Menu.Item key="2">
           <ShopOutlined />
-          <Link href="/">
-            <a>Author</a>
+          <Link href="/authors">
+            <a>List Bloger</a>
           </Link>
         </Menu.Item>
 

@@ -1,4 +1,4 @@
-.blog {
+.post {
   margin: 2rem 8rem;
   border-bottom: 1px solid gray;
   padding-top: 0.8rem;
@@ -15,4 +15,8 @@
 .strong {
   margin-right: 1.2rem;
   color: black;
+}
+
+.edit {
+  margin: 1rem 0;
 }

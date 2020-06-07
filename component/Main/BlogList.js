@@ -2,16 +2,12 @@
 import style from "./style.module.css";
 import Blog from "./Blog/Blog";
 
-export default function BlogList() {
+export default function BlogList(props) {
   return (
     <div className={style.bloglist}>
-      <Blog />
-      <Blog />
-      <Blog />
-      <Blog />
-      <Blog />
-      <Blog />
-      <Blog />
+      {props.posts.map((post, index) => {
+        return <Blog post={post} key={index} />;
+      })}
     </div>
   );
 }

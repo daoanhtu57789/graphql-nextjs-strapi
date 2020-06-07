@@ -1,16 +1,21 @@
 import Head from "next/head";
 import Footer from "./../component/Footer/index";
 import Header from "./../component/Header/index";
-import BlogList from "./../component/Main/BlogList";
+import AuthorComponent from "./../component/AuthorsComponent/index";
 //graphQl
 import { graphql } from "react-apollo";
 //
-import { QUERY_POSTS } from "./../constants/index";
+import { QUERY_AUTHOR } from "./../constants/index";
+//
+import { useRouter } from "next/router";
 
-export default graphql(QUERY_POSTS)(function Home({ data }) {
+export default graphql(QUERY_AUTHOR)(function Author({ data }) {
+  const router = useRouter();
   let xhtml = <div style={{ textAlign: "center" }}>...Loading</div>;
-  if (data.posts) {
-    xhtml = <BlogList posts={data.posts} />;
+  if (data.authors) {
+    xhtml = data.authors.map((author, index) => {
+      return <AuthorComponent key={index} author={author} />;
+    });
   }
 
   return (

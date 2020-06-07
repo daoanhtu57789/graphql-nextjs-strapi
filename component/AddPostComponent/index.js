@@ -1,19 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Form, Input, Button } from "antd";
-import Link from "next/link";
-//graphQl
-import { graphql } from "react-apollo";
-//
-import { QUERY_AUTHOR } from "./../../constants/index";
 
-class LoginComponent extends Component {
+class AddPostComponent extends Component {
   onFinish = (values) => {
-    this.props.handleLogin(values);
+    this.props.handleAddPost(values);
   };
 
-  onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+  onFinishFailed = (errorInfo) => {};
   render() {
     const layout = {
       labelCol: { span: 10 }, //khoảnh cách từ bên phải
@@ -23,7 +16,7 @@ class LoginComponent extends Component {
       wrapperCol: { offset: 11, span: 16 },
     };
     return (
-      <div>
+      <Fragment>
         <Form
           {...layout}
           name="basic"
@@ -32,15 +25,14 @@ class LoginComponent extends Component {
           }}
           onFinish={this.onFinish}
           onFinishFailed={this.onFinishFailed}
-          style={{ margin: "100px 0" }}
         >
           <Form.Item
-            label="Email"
-            name="email"
+            label="Title"
+            name="title"
             rules={[
               {
                 required: true,
-                message: "Please input your email!",
+                message: "Please input your title!",
               },
             ]}
           >
@@ -48,36 +40,27 @@ class LoginComponent extends Component {
           </Form.Item>
 
           <Form.Item
-            label="Password"
-            name="password"
+            label="Content"
+            name="content"
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Please input your content!",
               },
             ]}
           >
-            <Input.Password />
+            <Input />
           </Form.Item>
 
           <Form.Item {...tailLayout}>
             <Button type="primary" htmlType="submit">
-              Login
+              Đăng
             </Button>
           </Form.Item>
         </Form>
-        <div style={{ textAlign: "center", margin: "-100px 15px 0px 0px" }}>
-          <small>
-            You don't have an account ? sign up{" "}
-            <Link href="/signup">
-              <a>here</a>
-            </Link>
-          </small>
-        </div>
-      </div>
+      </Fragment>
     );
   }
 }
-//);
 
-export default graphql(QUERY_AUTHOR)(LoginComponent);
+export default AddPostComponent;

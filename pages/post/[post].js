@@ -1,16 +1,20 @@
 import Head from "next/head";
-import Footer from "./../component/Footer/index";
-import Header from "./../component/Header/index";
-import BlogList from "./../component/Main/BlogList";
+import Footer from "./../../component/Footer/index";
+import Header from "./../../component/Header/index";
+import PostComponent from "./../../component/PostComponent/post";
 //graphQl
 import { graphql } from "react-apollo";
 //
-import { QUERY_POSTS } from "./../constants/index";
+import { QUERY_POSTS } from "./../../constants/index";
+//
+import { useRouter } from "next/router";
 
-export default graphql(QUERY_POSTS)(function Home({ data }) {
+export default graphql(QUERY_POSTS)(function Post({ data }) {
+  const router = useRouter();
   let xhtml = <div style={{ textAlign: "center" }}>...Loading</div>;
   if (data.posts) {
-    xhtml = <BlogList posts={data.posts} />;
+    const post = data.posts.filter((post) => post.title === router.query.post);
+    xhtml = <PostComponent post={post[0]} />;
   }
 
   return (

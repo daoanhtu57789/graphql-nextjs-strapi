@@ -4,7 +4,9 @@ import { Form, Input, Button } from "antd";
 
 class SignUpComponent extends Component {
   changeSignup = () => {};
-  onFinish = (values) => {};
+  onFinish = (values) => {
+    this.props.handleSignUp(values);
+  };
 
   onFinishFailed = (errorInfo) => {};
   render() {
@@ -25,15 +27,14 @@ class SignUpComponent extends Component {
           }}
           onFinish={this.onFinish}
           onFinishFailed={this.onFinishFailed}
-          style={{ margin: "150px 0" }}
         >
           <Form.Item
-            label="Username"
-            name="username"
+            label="Email"
+            name="email"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Please input your email!",
               },
             ]}
           >
@@ -65,6 +66,54 @@ class SignUpComponent extends Component {
           >
             <Input.Password />
           </Form.Item>
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your name!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Date"
+            name="date"
+            rules={[
+              {
+                required: true,
+                message: "Please input your date!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Phone"
+            name="phone"
+            rules={[
+              {
+                required: true,
+                message: "Please input your phone!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Address"
+            name="address"
+            rules={[
+              {
+                required: true,
+                message: "Please input your address!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
           <Form.Item {...tailLayout}>
             <Button type="primary" htmlType="submit">
@@ -72,7 +121,7 @@ class SignUpComponent extends Component {
             </Button>
           </Form.Item>
         </Form>
-        <div style={{ textAlign: "center", margin: "-150px 15px 0px 0px" }}>
+        <div style={{ textAlign: "center", margin: "0px 15px 0px 0px" }}>
           <small>
             You have an account ? Login{" "}
             <Link href="/login">
