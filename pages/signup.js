@@ -25,7 +25,9 @@ const SignUp = observer(
           },
         });
         alert("Đăng kí thành công.");
-        Router.push(`/login`, `/login`, true);
+        setTimeout(() => {
+          Router.push(`/login`, `/login`, true);
+        }, 1000);
       } else {
         alert("Mật khẩu không khớp hoặc lỗi khác.");
       }

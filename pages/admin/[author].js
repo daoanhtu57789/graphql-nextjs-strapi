@@ -19,6 +19,10 @@ const Admin = observer(function Admin(props) {
       />
     );
   }
+  //handle logout
+  const handleLogout = function () {
+    props.UserStore.addUser({});
+  };
 
   const handleDelete = function (id) {
     props.deletePost({
@@ -26,8 +30,7 @@ const Admin = observer(function Admin(props) {
         id: +id,
       },
     });
-    props.UserStore.deletePost(+id);
-    console.log(props.UserStore.user);
+    props.UserStore.deletePost(id);
   };
 
   return (
@@ -47,7 +50,7 @@ const Admin = observer(function Admin(props) {
 
           <Col span={2}></Col>
           <Col span={2}>
-            <Button type="primary">
+            <Button onClick={() => handleLogout()} type="primary">
               <Link href="/">
                 <a>Logout</a>
               </Link>

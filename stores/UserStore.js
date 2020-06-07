@@ -14,13 +14,14 @@ class UserStore {
   };
 
   deletePost = (postDeleteId) => {
-    this.user.posts = this.user.posts.filter(
-      (post) => +post.id !== postDeleteId
+    this.user.posts = [].concat(
+      this.user.posts.filter((post) => +post.id !== +postDeleteId)
     );
   };
 
   editPost = (postEdit) => {
     const index = this.user.posts.findIndex((post) => post.id == postEdit.id);
+
     this.user = {
       ...this.user,
       posts: [

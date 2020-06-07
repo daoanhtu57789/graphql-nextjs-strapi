@@ -23,23 +23,26 @@ export default graphql(updatePost, { name: "updatePost" })(
           (today.getMonth() + 1) +
           "-" +
           today.getFullYear();
-        props.updatePost({
-          variables: {
-            id: +props.post.id,
-            title: values.title,
-            content: values.content,
-            updateday: date,
-          },
-        });
+        try {
+          props.updatePost({
+            variables: {
+              id: +props.post.id,
+              title: values.title,
+              content: values.content,
+              updateday: date,
+            },
+          });
+          alert("Update Thành Công");
+        } catch (error) {
+          alert("Update Không Thành Công");
+        }
 
         props.UserStore.editPost({
-          id: +props.post.id,
+          id: props.post.id,
           title: values.title,
           content: values.content,
           updateday: date,
         });
-
-        alert("Update Thành Công");
       };
 
       const onFinish = function (values) {
