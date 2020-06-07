@@ -1,6 +1,6 @@
 import gpl from "graphql-tag";
 export const QUERY_AUTHOR = gpl`
-{query {
+query {
   authors {
     id
     email
@@ -28,10 +28,10 @@ export const QUERY_AUTHOR = gpl`
     }
   }
 }
-}`;
+  `;
 
 export const QUERY_POSTS = gpl`
-{query {
+query {
   posts {
     id
       email
@@ -48,12 +48,10 @@ export const QUERY_POSTS = gpl`
     phone
     address
       }
-  }
-}
-}`;
+  }}`;
 
 export const createAuthor = gpl`
-  {mutation($email:String!,$password:String!,$name:String!,$date:String!,$address:String!,$phone:Long!) {
+  mutation($email:String!,$password:String!,$name:String!,$date:String!,$address:String!,$phone:Long!) {
     createAuthor(input :{data:{email:$email,password:$password,name:$name,date:$date,address:$address,phone:$phone}}){
       author{
         email
@@ -64,13 +62,9 @@ export const createAuthor = gpl`
         phone
       }    
     }
-  }
-}
-  `;
+  }`;
 
-export const createPost = gpl`
-{  
-mutation($email:String!,$content:String!,$createday:String!,$updateday:String!,$title:String!,$authors:ID!) {
+export const createPost = gpl`mutation($email:String!,$content:String!,$createday:String!,$updateday:String!,$title:String!,$authors:ID!) {
     createPost(input :{data:{email:$email,content:$content,createday:$createday,updateday:$updateday,title:$title,authors:[$authors]}}){
       post{
         email
@@ -89,12 +83,10 @@ mutation($email:String!,$content:String!,$createday:String!,$updateday:String!,$
         }
     }  
     }
-  }
-}
-  `;
+  }`;
 
 export const deletePost = gpl`
-  {mutation($id:ID!) {
+  mutation($id:ID!) {
     deletePost(input: { where: { id: $id } }) {
       post{
         id
@@ -114,12 +106,10 @@ export const deletePost = gpl`
           }
       }
     }
-  }
-}
-`;
+  }`;
 
 export const updatePost = gpl`
-  {mutation($id:ID!,$title:String!,$content:String!,$updateday:String!) {
+  mutation($id:ID!,$title:String!,$content:String!,$updateday:String!) {
     updatePost(input: {
       where: {
         id: $id
@@ -136,6 +126,4 @@ export const updatePost = gpl`
         updateday
       }
     }
-  }
-}
-`;
+  }`;
