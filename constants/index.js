@@ -67,6 +67,7 @@ export const createAuthor = gpl`
 export const createPost = gpl`mutation($email:String!,$content:String!,$createday:String!,$updateday:String!,$title:String!,$authors:ID!) {
     createPost(input :{data:{email:$email,content:$content,createday:$createday,updateday:$updateday,title:$title,authors:[$authors]}}){
       post{
+        id
         email
         content
         createday

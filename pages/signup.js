@@ -5,7 +5,8 @@ import Link from "next/link";
 //graphQl
 import { graphql } from "react-apollo";
 //
-import { createAuthor } from "./../constants/index";
+import { createAuthor, QUERY_AUTHOR } from "./../constants/index";
+import { compose } from "recompose";
 //mobx
 import { observer, inject } from "mobx-react";
 //
@@ -14,16 +15,28 @@ const SignUp = observer(
   class SignUp extends Component {
     handleSignUp = (user) => {
       if (user.password === user.confirmPassword) {
-        this.props.createAuthor({
-          variables: {
-            email: user.email,
-            password: user.password,
-            name: user.name,
-            date: user.date,
-            address: user.address,
-            phone: +user.phone,
-          },
-        });
+        this.props
+          .createAuthor({
+            variables: {
+              email: user.email,
+              password: user.password,
+              name: user.name,
+              date: user.date,
+              address: user.address,
+              phone: +user.phone,
+            },
+          })
+          .then((data) =>
+            this.props.UserStore.addUser({
+              email: user.email,
+              password: user.password,
+              name: user.name,
+              date: user.date,
+              address: user.address,
+              phone: +user.phone,
+              authors: [],
+            })
+          );
         alert("Đăng kí thành công.");
         setTimeout(() => {
           Router.push(`/login`, `/login`, true);
@@ -58,6 +71,7 @@ const SignUp = observer(
   }
 );
 
-export default graphql(createAuthor, { name: "createAuthor" })(
-  inject("UserStore")(SignUp)
-);
+export default compose(
+  graphql(createAuthor, { name: "createAuthor" }),
+  graphql(QUERY_AUTHOR)
+)(inject("UserStore")(SignUp));

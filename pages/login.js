@@ -4,26 +4,60 @@ import LoginComponent from "../component/LoginComponent/index";
 import Link from "next/link";
 import { observer, inject } from "mobx-react";
 //graphQl
-import { graphql } from "react-apollo";
-//
-import { QUERY_AUTHOR } from "./../constants/index";
+import { createApolloFetch } from "apollo-fetch";
 //
 import Router from "next/router";
 const Login = observer(
   class Login extends Component {
     handleLogin = (user) => {
-      if (this.props.data) {
-        const author = this.props.data.authors.filter(
-          (author) =>
-            author.email === user.email && author.password === user.password
-        );
-        this.props.UserStore.addUser(author[0]);
-        if (author.length > 0) {
-          Router.push(`/admin/[author]`, `/admin/${author[0].name}`, true);
-        } else {
-          alert("Không tồn tại hoặc sai tài khoản và mật khẩu");
+      const fetch = createApolloFetch({
+        uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
+      });
+
+      fetch({
+        query: `{
+          authors {
+            id
+            email
+            name
+            password
+            date
+            phone
+            address
+            posts{
+              id
+              title
+              email
+              content
+              createday
+              updateday
+              authors{
+                id
+                email
+                name
+                password
+                date
+                phone
+                address
+              }
+            }
+          }
+        }`,
+      }).then((res) => {
+        if (res.data.authors) {
+          const author = res.data.authors.filter(
+            (author) =>
+              author.email === user.email && author.password === user.password
+          );
+
+          if (author.length > 0) {
+            this.props.UserStore.addUser(author[0]);
+            Router.push(`/admin/[author]`, `/admin/${author[0].name}`, true);
+          } else {
+            alert("Không tồn tại hoặc sai tài khoản và mật khẩu");
+          }
         }
-      }
+      });
     };
     render() {
       return (
@@ -50,4 +84,4 @@ const Login = observer(
     }
   }
 );
-export default graphql(QUERY_AUTHOR)(inject("UserStore")(Login));
+export default inject("UserStore")(Login);
