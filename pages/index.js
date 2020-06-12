@@ -10,7 +10,7 @@ import { QUERY_POSTS } from "./../constants/index";
 export default graphql(QUERY_POSTS)(function Home({ data }) {
   let xhtml = <div style={{ textAlign: "center" }}>...Loading</div>;
   if (data.posts) {
-    xhtml = <BlogList posts={data.posts} />;
+    xhtml = <BlogList posts={data.posts.reverse()} />;
   }
 
   return (

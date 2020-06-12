@@ -2,6 +2,7 @@ import { Form, Input, Button } from "antd";
 import { updatePost } from "./../../../constants/index";
 //graphQl
 import { graphql } from "react-apollo";
+import { createApolloFetch } from "apollo-fetch";
 //mobx
 import { inject, observer } from "mobx-react";
 export default graphql(updatePost, { name: "updatePost" })(
@@ -24,27 +25,59 @@ export default graphql(updatePost, { name: "updatePost" })(
           "-" +
           today.getFullYear();
         try {
-          props.updatePost({
-            variables: {
-              id: +props.post.id,
-              title: values.title,
-              content: values.content,
-              updateday: date,
-            },
-          });
-          alert("Update Thành Công");
+          props
+            .updatePost({
+              variables: {
+                id: +props.post.id,
+                title: values.title,
+                content: values.content,
+                updateday: date,
+              },
+            })
+            .then((data) => {
+              const fetch = createApolloFetch({
+                uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
+              });
+              const { id } = props.UserStore.user;
+              fetch({
+                query: `query($id:ID!) {
+                author(id:$id) {
+                  id
+                  email
+                  name
+                  password
+                  date
+                  phone
+                  address
+                  posts{
+                    id
+                    title
+                    email
+                    content
+                    createday
+                    updateday
+                    authors{
+                      id
+                      email
+                      name
+                      password
+                      date
+                      phone
+                      address
+                    }
+                  }
+                }
+              }`,
+                variables: { id: +id },
+              }).then((res) => {
+                props.UserStore.addUser(res.data.author);
+                alert("Update thành công.");
+              });
+            });
         } catch (error) {
           alert("Update Không Thành Công");
         }
-
-        props.UserStore.editPost({
-          id: props.post.id,
-          title: values.title,
-          content: values.content,
-          updateday: date,
-        });
       };
-
       const onFinish = function (values) {
         handleUpdate(values);
       };
