@@ -3,6 +3,7 @@ import Post from "./Post/post";
 import { Button } from "antd";
 import { PushpinOutlined } from "@ant-design/icons";
 import Link from "next/link";
+
 export default function AdminComponent(props) {
   return (
     <div className={style.admin}>

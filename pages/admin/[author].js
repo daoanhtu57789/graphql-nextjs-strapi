@@ -7,10 +7,24 @@ import AdminComponent from "./../../component/AdminComponent/adminComponent";
 import { observer, inject } from "mobx-react";
 //
 import { deletePost } from "./../../constants/index";
+import { createApolloFetch } from "apollo-fetch";
+
 //graphQl
 import { graphql } from "react-apollo";
+import { useState } from "react";
 const Admin = observer(function Admin(props) {
+  const [showModel, setShowModel] = useState(false);
+  const [idDelete, setIdDelete] = useState(0);
   let xhtml = <div style={{ textAlign: "center" }}>...Loading</div>;
+  let showModelDelete = (
+    <div>
+      <h2>Bạn có chắc muốn xóa?</h2>
+      <Button onClick={() => Delete()} type="primary">
+        Xóa
+      </Button>
+      <Button type="default">Cancel</Button>
+    </div>
+  );
   if (props.UserStore.user.posts) {
     xhtml = (
       <AdminComponent
@@ -24,13 +38,63 @@ const Admin = observer(function Admin(props) {
     props.UserStore.addUser({});
   };
 
+  const Delete = function () {
+    props
+      .deletePost({
+        variables: {
+          id: +idDelete,
+        },
+      })
+      .then((data) => {
+        const fetch = createApolloFetch({
+          uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
+        });
+        fetch({
+          query: `query($id:ID!) {
+          author(id:$id) {
+            id
+            email
+            name
+            password
+            date
+            phone
+            address
+            posts{
+              id
+              title
+              email
+              content
+              createday
+              updateday
+              authors{
+                id
+                email
+                name
+                password
+                date
+                phone
+                address
+              }
+            }
+          }
+        }`,
+          variables: { id: +props.UserStore.user.id },
+        }).then((res) => {
+          props.UserStore.addUser(res.data.author);
+          xhtml = (
+            <AdminComponent
+              handleDelete={(id) => handleDelete(id)}
+              posts={res.data.author.posts}
+            />
+          );
+          setShowModel(false);
+        });
+      });
+  };
+
   const handleDelete = function (id) {
-    props.deletePost({
-      variables: {
-        id: +id,
-      },
-    });
-    props.UserStore.deletePost(id);
+    setIdDelete(+id);
+    setShowModel(true);
   };
 
   return (
@@ -59,7 +123,7 @@ const Admin = observer(function Admin(props) {
           <Col span={1}></Col>
         </Row>
       </header>
-      <main>{xhtml}</main>
+      <main>{showModel ? showModelDelete : xhtml}</main>
       <footer>
         <Footer />
       </footer>
