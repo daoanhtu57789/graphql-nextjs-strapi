@@ -1,6 +1,6 @@
 import gpl from "graphql-tag";
 
-export const FETCH_AUTHORS = `query {
+export const FETCH_AUTHORS = `
   {
     authors {
       id
@@ -28,7 +28,8 @@ export const FETCH_AUTHORS = `query {
         }
       }
     }
-  }`;
+  }
+  `;
 
 export const QUERY_AUTHORS = gpl`
 query {
