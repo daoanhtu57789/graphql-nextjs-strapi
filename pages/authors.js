@@ -2,15 +2,14 @@ import Head from "next/head";
 import Footer from "./../component/Footer/index";
 import Header from "./../component/Header/index";
 import AuthorComponent from "./../component/AuthorsComponent/index";
-//graphQl
-import { graphql } from "react-apollo";
-//
-import { QUERY_AUTHORS } from "./../constants/index";
 
-export default graphql(QUERY_AUTHORS)(function Author({ data }) {
+import { createApolloFetch } from "apollo-fetch";
+import { FETCH_AUTHORS, API } from "./../constants/index";
+
+function Author({ props }) {
   let xhtml = <div style={{ textAlign: "center" }}>...Loading</div>;
-  if (data.authors) {
-    xhtml = data.authors.map((author, index) => {
+  if (props.data.authors) {
+    xhtml = props.data.authors.map((author, index) => {
       return <AuthorComponent key={index} author={author} />;
     });
   }
@@ -48,4 +47,16 @@ export default graphql(QUERY_AUTHORS)(function Author({ data }) {
       `}</style>
     </div>
   );
-});
+}
+
+Author.getInitialProps = async (ctx) => {
+  const fetch = createApolloFetch({
+    uri: API,
+  });
+
+  const res = await fetch({
+    query: FETCH_AUTHORS,
+  });
+  return { props: res };
+};
+export default Author;
