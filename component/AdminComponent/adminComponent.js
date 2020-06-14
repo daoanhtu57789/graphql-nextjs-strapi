@@ -25,6 +25,7 @@ export default function AdminComponent(props) {
                 key={index}
                 post={post}
                 handleDelete={(id) => props.handleDelete(id)}
+                handleUpdate={(post) => props.handleUpdate(post)}
               />
             );
           })

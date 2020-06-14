@@ -7,21 +7,18 @@ import {
   UserOutlined,
   CommentOutlined,
 } from "@ant-design/icons";
-import UpdateForm from "./../UpdateForm/index";
-
-import { useState } from "react";
-
 export default function Post(props) {
   const onClickDelete = function (id) {
     props.handleDelete(id);
-    setOnFormUpdate(false);
   };
-  const [onFormUpdate, setOnFormUpdate] = useState(false);
+
+  const onClickUpdate = function (post) {
+    props.handleUpdate(post);
+  };
   return (
     <div>
       {props.post.authors[0] ? (
         <div className={style.post}>
-          {onFormUpdate ? <UpdateForm post={props.post} /> : ""}
           <Row>
             <Col span={7}>Đây là nơi để ảnh đại của bài viết</Col>
 
@@ -60,7 +57,7 @@ export default function Post(props) {
               <div className={style.edit}>
                 <Button
                   type="primary"
-                  onClick={() => setOnFormUpdate(!onFormUpdate)}
+                  onClick={() => onClickUpdate(props.post)}
                 >
                   Sửa
                 </Button>

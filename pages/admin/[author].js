@@ -5,17 +5,83 @@ import Link from "next/link";
 import AdminComponent from "./../../component/AdminComponent/adminComponent";
 //mobx
 import { observer, inject } from "mobx-react";
-//
+
 import { deletePost } from "./../../constants/index";
 import { createApolloFetch } from "apollo-fetch";
-
+import UpdateForm from "./../../component/AdminComponent/UpdateForm/index";
 //graphQl
 import { graphql } from "react-apollo";
 import { useState } from "react";
 const Admin = observer(function Admin(props) {
-  const [showModel, setShowModel] = useState(false);
+  const [onModelDelete, setOnModelDelete] = useState(false);
+  const [onModelUpdate, setOnModelUpdate] = useState(false);
   const [idDelete, setIdDelete] = useState(0);
+  const [postUpdate, setPostUpdate] = useState(null);
   let xhtml = <div style={{ textAlign: "center" }}>...Loading</div>;
+
+  //update
+  const onUpdate = function (values) {
+    let today = new Date();
+    let date =
+      today.getDate() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getFullYear();
+    const fetch = createApolloFetch({
+      uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
+    });
+
+    fetch({
+      query: `mutation($id:ID!,$title:String!,$content:String!,$updateday:String!) {
+          updatePost(input: {
+            where: {
+              id: $id
+            },
+            data: {
+              title: $title ,
+              content : $content
+              updateday:$updateday
+            }
+          }) {
+            post {
+              title 
+              content
+              updateday
+            }
+          }
+        }`,
+      variables: {
+        id: +postUpdate.id,
+        title: values.title,
+        content: values.content,
+        updateday: date,
+      },
+    }).then((res) => {
+      props.UserStore.editPost({
+        id: +postUpdate.id,
+        title: values.title,
+        content: values.content,
+        updateday: date,
+      });
+      // xhtml = (
+      //   <AdminComponent
+      //     handleDelete={(id) => handleDelete(id)}
+      //     posts={props.UserStore.user.posts}
+      //     handleUpdate={(post) => handleUpdate(post)}
+      //   />
+      // );
+      alert("Update thành công.");
+      setOnModelUpdate(false);
+    });
+  };
+
+  const handleUpdate = function (post) {
+    setPostUpdate(post);
+    setOnModelDelete(false);
+    setOnModelUpdate(true);
+  };
+
   let showModelDelete = (
     <div>
       <h2>Bạn có chắc muốn xóa?</h2>
@@ -30,6 +96,7 @@ const Admin = observer(function Admin(props) {
       <AdminComponent
         handleDelete={(id) => handleDelete(id)}
         posts={props.UserStore.user.posts}
+        handleUpdate={(post) => handleUpdate(post)}
       />
     );
   }
@@ -38,6 +105,7 @@ const Admin = observer(function Admin(props) {
     props.UserStore.addUser({});
   };
 
+  //delete
   const Delete = function () {
     props
       .deletePost({
@@ -85,16 +153,19 @@ const Admin = observer(function Admin(props) {
             <AdminComponent
               handleDelete={(id) => handleDelete(id)}
               posts={res.data.author.posts}
+              handleUpdate={(post) => handleUpdate(post)}
             />
           );
-          setShowModel(false);
+          setOnModelDelete(false);
+          setOnModelUpdate(false);
         });
       });
   };
 
   const handleDelete = function (id) {
     setIdDelete(+id);
-    setShowModel(true);
+    setOnModelDelete(true);
+    setOnModelUpdate(false);
   };
 
   return (
@@ -123,7 +194,20 @@ const Admin = observer(function Admin(props) {
           <Col span={1}></Col>
         </Row>
       </header>
-      <main>{showModel ? showModelDelete : xhtml}</main>
+      <main>
+        {onModelDelete || onModelUpdate ? (
+          onModelDelete ? (
+            showModelDelete
+          ) : (
+            <UpdateForm
+              post={postUpdate}
+              onUpdate={(values) => onUpdate(values)}
+            />
+          )
+        ) : (
+          xhtml
+        )}
+      </main>
       <footer>
         <Footer />
       </footer>

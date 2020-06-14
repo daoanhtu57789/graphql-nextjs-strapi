@@ -18,6 +18,19 @@ class UserStore {
       (post) => +post.id !== +postDeleteId
     );
   };
+  editPost = (postEdit) => {
+    const index = this.user.posts.findIndex((post) => post.id == postEdit.id);
+    console.log(this.user.posts);
+    this.user = {
+      ...this.user,
+      posts: [
+        ...this.user.posts.slice(0, index),
+        { ...this.user.posts[index], ...postEdit },
+        ...this.user.posts.slice(index + 1),
+      ],
+    };
+    console.log(this.user.posts);
+  };
 }
 
 decorate(UserStore, {
@@ -25,6 +38,7 @@ decorate(UserStore, {
   deletePost: action,
   addUser: action,
   addPost: action,
+  editPost: action,
 });
 
 const store = new UserStore();
