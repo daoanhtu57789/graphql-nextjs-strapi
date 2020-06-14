@@ -1,5 +1,36 @@
 import gpl from "graphql-tag";
-export const QUERY_AUTHOR = gpl`
+
+export const FETCH_AUTHORS = `query {
+  {
+    authors {
+      id
+      email
+      name
+      password
+      date
+      phone
+      address
+      posts{
+        id
+        title
+        email
+        content
+        createday
+        updateday
+        authors{
+          id
+          email
+          name
+          password
+          date
+          phone
+          address
+        }
+      }
+    }
+  }`;
+
+export const QUERY_AUTHORS = gpl`
 query {
   authors {
     id
@@ -29,6 +60,35 @@ query {
   }
 }
   `;
+
+export const QUERY_AUTHOR = `query($id:ID!) {
+  author(id:$id) {
+    id
+    email
+    name
+    password
+    date
+    phone
+    address
+    posts{
+      id
+      title
+      email
+      content
+      createday
+      updateday
+      authors{
+        id
+        email
+        name
+        password
+        date
+        phone
+        address
+      }
+    }
+  }
+}`;
 
 export const QUERY_POSTS = gpl`
 query {
@@ -109,7 +169,7 @@ export const deletePost = gpl`
     }
   }`;
 
-export const updatePost = gpl`
+export const updatePost = `
   mutation($id:ID!,$title:String!,$content:String!,$updateday:String!) {
     updatePost(input: {
       where: {
@@ -128,3 +188,5 @@ export const updatePost = gpl`
       }
     }
   }`;
+
+export const API = "https://demo-strapi-nextjs.herokuapp.com/graphql";

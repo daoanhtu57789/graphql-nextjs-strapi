@@ -5,12 +5,9 @@ import AuthorComponent from "./../component/AuthorsComponent/index";
 //graphQl
 import { graphql } from "react-apollo";
 //
-import { QUERY_AUTHOR } from "./../constants/index";
-//
-import { useRouter } from "next/router";
+import { QUERY_AUTHORS } from "./../constants/index";
 
-export default graphql(QUERY_AUTHOR)(function Author({ data }) {
-  const router = useRouter();
+export default graphql(QUERY_AUTHORS)(function Author({ data }) {
   let xhtml = <div style={{ textAlign: "center" }}>...Loading</div>;
   if (data.authors) {
     xhtml = data.authors.map((author, index) => {

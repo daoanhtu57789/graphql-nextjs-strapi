@@ -1,12 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import SignUpComponent from "./../component/SignupComponent/index";
 import Head from "next/head";
 import Link from "next/link";
 //graphQl
 import { graphql } from "react-apollo";
 //
-import { createAuthor, QUERY_AUTHOR } from "./../constants/index";
-import { compose } from "recompose";
+import { createAuthor } from "./../constants/index";
 //mobx
 import { observer, inject } from "mobx-react";
 //
@@ -26,21 +25,11 @@ const SignUp = observer(
               phone: +user.phone,
             },
           })
-          .then((data) =>
-            this.props.UserStore.addUser({
-              email: user.email,
-              password: user.password,
-              name: user.name,
-              date: user.date,
-              address: user.address,
-              phone: +user.phone,
-              authors: [],
-            })
-          );
-        alert("Đăng kí thành công.");
-        setTimeout(() => {
-          Router.push(`/login`, `/login`, true);
-        }, 1000);
+          .then((data) => {
+            alert("Đăng kí thành công.");
+
+            Router.push(`/login`, `/login`, true);
+          });
       } else {
         alert("Mật khẩu không khớp hoặc lỗi khác.");
       }
@@ -71,7 +60,6 @@ const SignUp = observer(
   }
 );
 
-export default compose(
-  graphql(createAuthor, { name: "createAuthor" }),
-  graphql(QUERY_AUTHOR)
-)(inject("UserStore")(SignUp));
+export default graphql(createAuthor, { name: "createAuthor" })(
+  inject("UserStore")(SignUp)
+);

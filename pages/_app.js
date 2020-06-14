@@ -4,11 +4,12 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import { Provider } from "mobx-react";
 import UserStore from "./../stores/UserStore";
+import { API } from "../constants";
 //khai báo API để sử dụng graphql
 //const client = new ApolloClient({ uri: "http://localhost:1337/graphql" });
 
 const client = new ApolloClient({
-  uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
+  uri: API,
   onError: ({ networkError, graphQLErrors }) => {
     console.log("graphQLErrors", graphQLErrors);
     console.log("networkError", networkError);

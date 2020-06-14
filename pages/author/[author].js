@@ -5,11 +5,11 @@ import BlogList from "./../../component/Main/BlogList";
 //graphQl
 import { graphql } from "react-apollo";
 //
-import { QUERY_AUTHOR } from "./../../constants/index";
+import { QUERY_AUTHORS } from "./../../constants/index";
 //
 import { useRouter } from "next/router";
 
-export default graphql(QUERY_AUTHOR)(function Author({ data }) {
+export default graphql(QUERY_AUTHORS)(function Author({ data }) {
   const router = useRouter();
   let xhtml = <div style={{ textAlign: "center" }}>...Loading</div>;
   if (data.authors) {

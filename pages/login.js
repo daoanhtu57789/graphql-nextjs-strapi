@@ -7,42 +7,16 @@ import { observer, inject } from "mobx-react";
 import { createApolloFetch } from "apollo-fetch";
 //
 import Router from "next/router";
+import { API, FETCH_AUTHORS } from "../constants";
 const Login = observer(
   class Login extends Component {
     handleLogin = (user) => {
       const fetch = createApolloFetch({
-        uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
+        uri: API,
       });
 
       fetch({
-        query: `{
-          authors {
-            id
-            email
-            name
-            password
-            date
-            phone
-            address
-            posts{
-              id
-              title
-              email
-              content
-              createday
-              updateday
-              authors{
-                id
-                email
-                name
-                password
-                date
-                phone
-                address
-              }
-            }
-          }
-        }`,
+        query: FETCH_AUTHORS,
       }).then((res) => {
         if (res.data.authors) {
           const author = res.data.authors.filter(
@@ -85,62 +59,3 @@ const Login = observer(
   }
 );
 export default inject("UserStore")(Login);
-
-// export async function getStaticProps() {
-//   // Get external data from the file system, API, DB, etc.
-//   const fetch = createApolloFetch({
-//     uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
-//   });
-
-//   fetch({
-//     query: `{
-//       authors {
-//         id
-//         email
-//         name
-//         password
-//         date
-//         phone
-//         address
-//         posts{
-//           id
-//           title
-//           email
-//           content
-//           createday
-//           updateday
-//           authors{
-//             id
-//             email
-//             name
-//             password
-//             date
-//             phone
-//             address
-//           }
-//         }
-//       }
-//     }`,
-//   }).then((res) => {
-//     if (res.data.authors) {
-//       // const author = res.data.authors.filter(
-//       //   (author) =>
-//       //     author.email === user.email && author.password === user.password
-//       // );
-//       console.log(res.data.authors);
-//       // if (author.length > 0) {
-//       //   this.props.UserStore.addUser(author[0]);
-//       // } else {
-//       //   alert("Không tồn tại hoặc sai tài khoản và mật khẩu");
-//       // }
-//     }
-//   });
-
-//   // The value of the `props` key will be
-//   //  passed to the `Home` component
-//   return {
-//     props: {
-//       author,
-//     },
-//   };
-// }

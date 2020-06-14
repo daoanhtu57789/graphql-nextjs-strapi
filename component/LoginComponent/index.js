@@ -4,7 +4,7 @@ import Link from "next/link";
 //graphQl
 import { graphql } from "react-apollo";
 //
-import { QUERY_AUTHOR } from "./../../constants/index";
+import { QUERY_AUTHORS } from "./../../constants/index";
 
 class LoginComponent extends Component {
   onFinish = (values) => {
@@ -80,4 +80,4 @@ class LoginComponent extends Component {
 }
 //);
 
-export default graphql(QUERY_AUTHOR)(LoginComponent);
+export default graphql(QUERY_AUTHORS)(LoginComponent);

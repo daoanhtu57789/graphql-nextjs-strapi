@@ -20,7 +20,7 @@ class UserStore {
   };
   editPost = (postEdit) => {
     const index = this.user.posts.findIndex((post) => post.id == postEdit.id);
-    console.log(this.user.posts);
+
     this.user = {
       ...this.user,
       posts: [
@@ -29,7 +29,6 @@ class UserStore {
         ...this.user.posts.slice(index + 1),
       ],
     };
-    console.log(this.user.posts);
   };
 }
 

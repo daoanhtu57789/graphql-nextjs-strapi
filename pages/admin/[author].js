@@ -5,8 +5,12 @@ import Link from "next/link";
 import AdminComponent from "./../../component/AdminComponent/adminComponent";
 //mobx
 import { observer, inject } from "mobx-react";
-
-import { deletePost } from "./../../constants/index";
+import {
+  deletePost,
+  API,
+  QUERY_AUTHOR,
+  updatePost,
+} from "./../../constants/index";
 import { createApolloFetch } from "apollo-fetch";
 import UpdateForm from "./../../component/AdminComponent/UpdateForm/index";
 //graphQl
@@ -29,28 +33,11 @@ const Admin = observer(function Admin(props) {
       "-" +
       today.getFullYear();
     const fetch = createApolloFetch({
-      uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
+      uri: API,
     });
 
     fetch({
-      query: `mutation($id:ID!,$title:String!,$content:String!,$updateday:String!) {
-          updatePost(input: {
-            where: {
-              id: $id
-            },
-            data: {
-              title: $title ,
-              content : $content
-              updateday:$updateday
-            }
-          }) {
-            post {
-              title 
-              content
-              updateday
-            }
-          }
-        }`,
+      query: updatePost,
       variables: {
         id: +postUpdate.id,
         title: values.title,
@@ -64,13 +51,6 @@ const Admin = observer(function Admin(props) {
         content: values.content,
         updateday: date,
       });
-      // xhtml = (
-      //   <AdminComponent
-      //     handleDelete={(id) => handleDelete(id)}
-      //     posts={props.UserStore.user.posts}
-      //     handleUpdate={(post) => handleUpdate(post)}
-      //   />
-      // );
       alert("Update thành công.");
       setOnModelUpdate(false);
     });
@@ -88,7 +68,9 @@ const Admin = observer(function Admin(props) {
       <Button onClick={() => Delete()} type="primary">
         Xóa
       </Button>
-      <Button type="default">Cancel</Button>
+      <Button type="default" onClick={() => setOnModelDelete(false)}>
+        Cancel
+      </Button>
     </div>
   );
   if (props.UserStore.user.posts) {
@@ -115,47 +97,13 @@ const Admin = observer(function Admin(props) {
       })
       .then((data) => {
         const fetch = createApolloFetch({
-          uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
+          uri: API,
         });
         fetch({
-          query: `query($id:ID!) {
-          author(id:$id) {
-            id
-            email
-            name
-            password
-            date
-            phone
-            address
-            posts{
-              id
-              title
-              email
-              content
-              createday
-              updateday
-              authors{
-                id
-                email
-                name
-                password
-                date
-                phone
-                address
-              }
-            }
-          }
-        }`,
+          query: QUERY_AUTHOR,
           variables: { id: +props.UserStore.user.id },
         }).then((res) => {
           props.UserStore.addUser(res.data.author);
-          xhtml = (
-            <AdminComponent
-              handleDelete={(id) => handleDelete(id)}
-              posts={res.data.author.posts}
-              handleUpdate={(post) => handleUpdate(post)}
-            />
-          );
           setOnModelDelete(false);
           setOnModelUpdate(false);
         });

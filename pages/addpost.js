@@ -5,7 +5,7 @@ import Link from "next/link";
 //graphQl
 import { graphql } from "react-apollo";
 //
-import { createPost } from "./../constants/index";
+import { createPost, API, QUERY_AUTHOR } from "./../constants/index";
 //graphQl
 import { createApolloFetch } from "apollo-fetch";
 //mobx
@@ -37,38 +37,11 @@ const AddPost = observer(
           })
           .then((data) => {
             const fetch = createApolloFetch({
-              uri: "https://demo-strapi-nextjs.herokuapp.com/graphql",
+              uri: API,
             });
 
             fetch({
-              query: `query($id:ID!) {
-                author(id:$id) {
-                  id
-                  email
-                  name
-                  password
-                  date
-                  phone
-                  address
-                  posts{
-                    id
-                    title
-                    email
-                    content
-                    createday
-                    updateday
-                    authors{
-                      id
-                      email
-                      name
-                      password
-                      date
-                      phone
-                      address
-                    }
-                  }
-                }
-              }`,
+              query: QUERY_AUTHOR,
               variables: { id: +user.id },
             }).then((res) => {
               this.props.UserStore.addPost(
