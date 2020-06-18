@@ -12,6 +12,22 @@ export default graphql(QUERY_POSTS)(function Home({ data }) {
   if (data.posts) {
     xhtml = <BlogList posts={data.posts.reverse()} />;
   }
+  window.fbAsyncInit = function () {
+    FB.init({
+      xfbml: true,
+      version: "v7.0",
+    });
+  };
+
+  (function (d, s, id) {
+    var js,
+      fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  })(document, "script", "facebook-jssdk");
 
   return (
     <div className="container">
@@ -27,6 +43,16 @@ export default graphql(QUERY_POSTS)(function Home({ data }) {
       <main>{xhtml}</main>
 
       <footer>
+        {/* <!-- Load Facebook SDK for JavaScript --> */}
+        <div id="fb-root"></div>
+        {/* <!-- Your Chat Plugin code --> */}
+        <div
+          class="fb-customerchat"
+          attribution="setup_tool"
+          page_id="103630644445022"
+          logged_in_greeting="Chào Mừng bạn đã đến với trùm phim remix"
+          logged_out_greeting="Chào Mừng bạn đã đến với trùm phim remix"
+        ></div>
         <Footer />
       </footer>
 
