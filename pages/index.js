@@ -15,6 +15,23 @@ export default graphql(QUERY_POSTS)(
       if (this.props.data.posts) {
         xhtml = <BlogList posts={this.props.data.posts.reverse()} />;
       }
+      window.fbAsyncInit = function () {
+        FB.init({
+          xfbml: true,
+          version: "v7.0",
+        });
+      };
+
+      const a = function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      };
+      a(document, "script", "facebook-jssdk");
       return (
         <div className="container">
           <Head>
@@ -30,25 +47,7 @@ export default graphql(QUERY_POSTS)(
 
           <footer>
             <div id="fb-root"></div>
-            {
-              (window.fbAsyncInit = (function () {
-                FB.init({
-                  xfbml: true,
-                  version: "v7.0",
-                });
-              })(
-                (function (d, s, id) {
-                  var js,
-                    fjs = d.getElementsByTagName(s)[0];
-                  if (d.getElementById(id)) return;
-                  js = d.createElement(s);
-                  js.id = id;
-                  js.src =
-                    "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
-                  fjs.parentNode.insertBefore(js, fjs);
-                })(document, "script", "facebook-jssdk")
-              ))
-            }
+
             <div
               class="fb-customerchat"
               attribution={setup_tool}
