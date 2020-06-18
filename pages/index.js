@@ -29,6 +29,33 @@ export default graphql(QUERY_POSTS)(
           <main>{xhtml}</main>
 
           <footer>
+            <div id="fb-root"></div>
+            {
+              (window.fbAsyncInit = (function () {
+                FB.init({
+                  xfbml: true,
+                  version: "v7.0",
+                });
+              })(
+                (function (d, s, id) {
+                  var js,
+                    fjs = d.getElementsByTagName(s)[0];
+                  if (d.getElementById(id)) return;
+                  js = d.createElement(s);
+                  js.id = id;
+                  js.src =
+                    "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
+                  fjs.parentNode.insertBefore(js, fjs);
+                })(document, "script", "facebook-jssdk")
+              ))
+            }
+            <div
+              class="fb-customerchat"
+              attribution={setup_tool}
+              page_id="103630644445022"
+              logged_in_greeting="Chào Mừng bạn đã đến với trùm phim remix"
+              logged_out_greeting="Chào Mừng bạn đã đến với trùm phim remix"
+            ></div>
             <Footer />
           </footer>
 
