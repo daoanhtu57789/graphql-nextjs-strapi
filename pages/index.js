@@ -10,28 +10,28 @@ import { graphql } from "react-apollo";
 import { QUERY_POSTS } from "./../constants/index";
 export default graphql(QUERY_POSTS)(
   class index extends Component {
+    a = (window.fbAsyncInit = function () {
+      FB.init({
+        xfbml: true,
+        version: "v7.0",
+      });
+    });
+
+    b = function (d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    };
     render() {
       let xhtml = <div style={{ textAlign: "center" }}>...Loading</div>;
       if (this.props.data.posts) {
         xhtml = <BlogList posts={this.props.data.posts.reverse()} />;
       }
-      window.fbAsyncInit = function () {
-        FB.init({
-          xfbml: true,
-          version: "v7.0",
-        });
-      };
 
-      const a = function (d, s, id) {
-        var js,
-          fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      };
-      a(document, "script", "facebook-jssdk");
       return (
         <div className="container">
           <Head>
@@ -47,7 +47,8 @@ export default graphql(QUERY_POSTS)(
 
           <footer>
             <div id="fb-root"></div>
-
+            {this.a()}
+            {this.b(document, "script", "facebook-jssdk")}
             <div
               class="fb-customerchat"
               attribution={setup_tool}
